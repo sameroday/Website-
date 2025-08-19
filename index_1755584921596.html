@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wick Studio - موقع احترافي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+            background-image: url('https://media.discordapp.net/attachments/1345751141945835568/1360577006198194276/BANNER.jpg?ex=6800e594&is=67ff9414&hm=c7f68a7824633371ca34e53ee360add6ce039368bc5faf70f4be57855f4102ea&=&format=webp&width=1056&height=594');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(10, 10, 10, 0.8), rgba(20, 20, 35, 0.85));
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 72px;
+            height: 72px;
+            margin-left: 15px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #7289da;
+            text-shadow: 0 0 10px rgba(114, 137, 218, 0.7);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li:last-child {
+            margin-right: 0;
+        }
+
+        .btn {
+            background-color: #7289da;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(114, 137, 218, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(114, 137, 218, 0.8);
+        }
+
+        .main-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #7289da;
+            text-shadow: 0 0 15px rgba(114, 137, 218, 0.7);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(114, 137, 218, 0.7);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(114, 137, 218, 1), 0 0 30px rgba(114, 137, 218, 0.8);
+            }
+        }
+
+        .subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #aaa;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .page {
+            display: none;
+            padding: 40px;
+            background: rgba(25, 25, 35, 0.85);
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 0 30px rgba(114, 137, 218, 0.3);
+            animation: fadeIn 0.5s ease;
+            max-height: 500px;
+            overflow-y: auto;
+            text-align: right;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page h2 {
+            color: #7289da;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(114, 137, 218, 0.5);
+        }
+
+        .page p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .page ul {
+            padding-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .page ul li {
+            margin-bottom: 10px;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: rgba(45, 45, 65, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(114, 137, 218, 0.3);
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(114, 137, 218, 0.4);
+            border-color: rgba(114, 137, 218, 0.6);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #7289da;
+            text-shadow: 0 0 10px rgba(114, 137, 218, 0.5);
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #7289da;
+        }
+
+        .feature-desc {
+            font-size: 16px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .rating-form {
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #7289da;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: rgba(30, 30, 30, 0.8);
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .rating-stars input {
+            display: none;
+        }
+
+        .rating-stars label {
+            cursor: pointer;
+            font-size: 30px;
+            color: #555;
+            padding: 5px;
+            transition: all 0.3s;
+        }
+
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label,
+        .rating-stars input:checked ~ label {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px 0;
+            color: #aaa;
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .active-btn {
+            background-color: #5865f2;
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.7);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .title {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .success-message {
+            display: none;
+            background-color: rgba(46, 204, 113, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://media.discordapp.net/attachments/1243993773730566204/1243993774120763486/FULL.png?ex=68009f3c&is=67ff4dbc&hm=8d487fccc483912feae7255023313683fe042b1dc2d88969708689a647907d62&=&format=webp&quality=lossless&width=72&height=72" alt="Wick Studio Logo">
+                <div class="logo-text">Wick Studio</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><button id="home-btn" class="btn active-btn" onclick="showPage('home-page')">الرئيسية</button></li>
+                    <li><button id="features-btn" class="btn" onclick="showPage('features-page')">المميزات</button></li>
+                    <li><button id="rules-btn" class="btn" onclick="showPage('rules-page')">القوانين</button></li>
+                    <li><button id="rating-btn" class="btn" onclick="showPage('rating-page')">التقييم</button></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="main-content">
+            <h1 class="title floating">مرحباً بك في Wick Studio</h1>
+            <p class="subtitle">موقع احترافي لخدمات الديسكورد والتصميم</p>
+            
+            <div class="buttons">
+                <button class="btn" onclick="showPage('features-page')">مميزات السيرفر</button>
+                <button class="btn" onclick="showPage('rules-page')">استعراض القوانين</button>
+                <button class="btn" onclick="showPage('rating-page')">إرسال تقييم</button>
+            </div>
+
+            <div id="home-page" class="page" style="display: block;">
+                <h2>أهلاً بك في موقعنا الرسمي</h2>
+                <p>نحن نقدم خدمات احترافية في مجال الديسكورد والتصميم، ونسعى دائماً لتقديم أفضل الخدمات لعملائنا.</p>
+                <p>استكشف موقعنا لمعرفة المزيد عن خدماتنا ومميزات السيرفر وقوانين استخدامها، ولا تنسى مشاركتنا رأيك من خلال صفحة التقييم.</p>
+                <p>انضم إلينا اليوم واحصل على تجربة فريدة من نوعها مع فريق محترف يهتم بأدق التفاصيل.</p>
+            </div>
+
+            <div id="features-page" class="page">
+                <h2>مميزات سيرفر Wick Studio</h2>
+                <p>يوفر سيرفر Wick Studio مجموعة متنوعة من الميزات المصممة خصيصاً لتلبية احتياجاتك:</p>
+                
+                <div class="features-container">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3 class="feature-title">تصاميم احترافية</h3>
+                        <p class="feature-desc">نقدم تصاميم فريدة ومخصصة لمختلف الاحتياجات بأعلى مستويات الجودة والاحترافية.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3 class="feature-title">بوتات مخصصة</h3>
+                        <p class="feature-desc">تطوير وبرمجة بوتات ديسكورد خاصة بمواصفات متقدمة لتلبية احتياجات سيرفرك.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">نظام إحصائيات متكامل</h3>
+                        <p class="feature-desc">تتبع نشاط السيرفر وتحليل البيانات بطريقة سهلة ومنظمة لضمان التطوير المستمر.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3 class="feature-title">أنظمة حماية متطورة</h3>
+                        <p class="feature-desc">حماية شاملة للسيرفر ضد هجمات الرايد والسبام وغيرها من المخاطر الأمنية.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🎭</div>
+                        <h3 class="feature-title">نظام رتب تفاعلي</h3>
+                        <p class="feature-desc">نظام رتب متطور يتيح للأعضاء التفاعل والحصول على رتب مميزة بناءً على نشاطهم.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🎮</div>
+                        <h3 class="feature-title">أنشطة ترفيهية</h3>
+                        <p class="feature-desc">مجموعة متنوعة من الأنشطة والألعاب الترفيهية لضمان تجربة ممتعة للأعضاء.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rules-page" class="page">
+                <h2>قوانين استخدام الخدمات</h2>
+                
+                <h3 style="color: #7289da; margin-top: 20px; margin-bottom: 10px;">قوانين ديسكورد:</h3>
+                <ul>
+                    <li>احترام جميع المستخدمين وتجنب الإساءة اللفظية أو الشخصية.</li>
+                    <li>يُمنع نشر أي محتوى غير لائق أو مخالف لشروط استخدام ديسكورد.</li>
+                    <li>يجب الالتزام بالقنوات المخصصة لكل موضوع والحفاظ على نظام السيرفر.</li>
+                    <li>يُمنع منعاً باتاً استخدام برامج التهكير أو البوتات المزعجة.</li>
+                    <li>تجنب التكرار المفرط للرسائل أو المنشن للمستخدمين الآخرين.</li>
+                    <li>يُمنع مشاركة روابط لمواقع مشبوهة أو ضارة.</li>
+                    <li>يجب احترام خصوصية المستخدمين الآخرين وعدم نشر معلوماتهم الشخصية.</li>
+                </ul>
+
+                <h3 style="color: #7289da; margin-top: 20px; margin-bottom: 10px;">قوانين Wick Studio:</h3>
+                <ul>
+                    <li>يجب دفع تكلفة الخدمة مقدماً قبل البدء في العمل.</li>
+                    <li>التعديلات البسيطة على المشروع مجانية، أما التغييرات الكبيرة فتتطلب رسوماً إضافية.</li>
+                    <li>نحتفظ بحقوق عرض المشاريع في معرض أعمالنا ما لم يتم الاتفاق على غير ذلك.</li>
+                    <li>مدة تسليم المشاريع تختلف حسب حجم وتعقيد المشروع.</li>
+                    <li>يحق للعميل طلب تعديلين فقط على المشروع النهائي.</li>
+                    <li>يُمنع إعادة بيع أو توزيع التصاميم الحصرية دون إذن خطي.</li>
+                    <li>نحتفظ بالحق في رفض أي مشروع يخالف القيم أو القوانين المحلية والدولية.</li>
+                </ul>
+            </div>
+
+            <div id="rating-page" class="page">
+                <h2>شاركنا تقييمك</h2>
+                <div class="rating-form">
+                    <form id="feedback-form">
+                        <div class="form-group">
+                            <label>التقييم:</label>
+                            <div class="rating-stars">
+                                <input type="radio" id="star5" name="rating" value="5" />
+                                <label for="star5">★</label>
+                                <input type="radio" id="star4" name="rating" value="4" />
+                                <label for="star4">★</label>
+                                <input type="radio" id="star3" name="rating" value="3" />
+                                <label for="star3">★</label>
+                                <input type="radio" id="star2" name="rating" value="2" />
+                                <label for="star2">★</label>
+                                <input type="radio" id="star1" name="rating" value="1" />
+                                <label for="star1">★</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">الاسم:</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="discord-username">اسم المستخدم في ديسكورد:</label>
+                            <input type="text" id="discord-username" name="discord-username">
+                        </div>
+                        <div class="form-group">
+                            <label for="feedback">رأيك:</label>
+                            <textarea id="feedback" name="feedback" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">إرسال التقييم</button>
+                    </form>
+                    <div class="success-message" id="success-message">
+                        تم إرسال تقييمك بنجاح! شكراً لك على وقتك.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            جميع الحقوق محفوظة &copy; 2025 - علي الأنباري - Wick Studio
+        </footer>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            document.getElementById(pageId).style.display = 'block';
+            
+            document.querySelectorAll('nav .btn').forEach(btn => {
+                btn.classList.remove('active-btn');
+            });
+            
+            const activeBtn = pageId.replace('-page', '-btn');
+            document.getElementById(activeBtn).classList.add('active-btn');
+        }
+
+        document.getElementById('feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const rating = document.querySelector('input[name="rating"]:checked') ? document.querySelector('input[name="rating"]:checked').value : "غير محدد";
+            const name = document.getElementById('name').value;
+            const discordUsername = document.getElementById('discord-username').value;
+            const feedback = document.getElementById('feedback').value;
+            
+            const webhookData = {
+                embeds: [{
+                    title: "تقييم جديد",
+                    color: 4886754,
+                    fields: [
+                        {
+                            name: "الاسم",
+                            value: name,
+                            inline: true
+                        },
+                        {
+                            name: "التقييم",
+                            value: "★".repeat(rating) + "☆".repeat(5 - rating),
+                            inline: true
+                        },
+                        {
+                            name: "اسم المستخدم في ديسكورد",
+                            value: discordUsername || "غير محدد",
+                            inline: true
+                        },
+                        {
+                            name: "التعليق",
+                            value: feedback
+                        }
+                    ],
+                    timestamp: new Date().toISOString(),
+                    footer: {
+                        text: "Wick Studio Rating System"
+                    }
+                }]
+            };
+            
+            fetch('https://discord.com/api/webhooks/1362129633813991476/DbIUkfN8Pnfa9w4LwPEmjGQ1BiQ3Zjz4zwm7oDTdFSFZWoJ_sEb5JEuiAj21-srnGNS-', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(webhookData),
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('success-message').style.display = 'block';
+                    document.getElementById('feedback-form').reset();
+                    setTimeout(() => {
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('حدث خطأ أثناء إرسال التقييم. يرجى المحاولة مرة أخرى.');
+            });
+        });
+
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseover', () => {
+                button.style.boxShadow = '0 0 25px rgba(114, 137, 218, 0.9)';
+            });
+            
+            button.addEventListener('mouseout', () => {
+                if (!button.classList.contains('active-btn')) {
+                    button.style.boxShadow = '0 0 15px rgba(114, 137, 218, 0.5)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
